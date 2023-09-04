@@ -1,0 +1,1 @@
+Water level at ( {{ stID }} ) is above the warning ({{ wrn }} cm) level at {{ time }}. Current water level is {{ depth }} cm.

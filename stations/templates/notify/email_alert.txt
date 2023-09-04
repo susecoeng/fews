@@ -1,0 +1,16 @@
+Dear User,
+
+The water level of the river ( {{ stID }} ) is on its initial alert level as shown below:
+
+Alert level: {{ wrn }} cm
+Current Water level: {{ depth }} cm
+Date and Time: {{ time }}
+
+Please use following URL to see detail information:
+
+{{ url }}
+
+
+Thank you,
+
+the project team.

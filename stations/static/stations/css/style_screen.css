@@ -1,0 +1,143 @@
+@media only screen and (min-width: 640px) {
+
+    /*body {
+	font-size: 10px; }*/
+    body {
+        overflow: hidden;
+    }
+
+    .main-container {
+        height: calc(100% - 70px);
+        top: 70px;
+    }
+
+    .map {
+        height: 100%;
+    }
+
+    .top-row {
+        height: auto;
+    }
+
+    .bot-row {
+        height: 38%;
+    }
+
+    .top-row-content,
+    .bot-row-content {
+        height: auto;
+    }
+
+    .logos {
+        display: inline-block;
+    }
+
+    .banner {
+        padding: 0;
+        height: 70px;
+    }
+
+    .banner-heading {
+        margin-top: 15px;
+        margin-left: 20px;
+        font-size: 1.86em;
+        /*26px;*/
+        line-height: 1.4;
+        width: auto;
+        text-align: left;
+    }
+
+    .btn-float {
+        display: block;
+    }
+
+
+}
+
+@media only screen and (min-width: 1024px) {
+
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        font-size: 1em;
+        /*14px;*/
+    }
+
+    body {
+        overflow: hidden;
+    }
+
+    .map {
+        height: 100%;
+    }
+
+    .full-height {
+        height: 100%;
+    }
+
+    .main-container {
+        height: calc(100% - 70px);
+        top: 70px;
+    }
+
+    .main-container.has-toolbar {
+        height: calc(100% - 100px);
+    }
+
+    .top-row {
+        height: 62%;
+    }
+
+    .bot-row {
+        height: 38%;
+    }
+
+    .top-row-content,
+    .bot-row-content {
+        height: 100%;
+    }
+
+    .colpad {
+        height: 100%;
+        padding: 0;
+    }
+
+    .full.colpad:first-child,
+    .full.colpad:last-child {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .col-mob-off {
+        display: block;
+    }
+
+
+    .chartDiv {
+        width: 50%;
+    }
+
+    .logos {
+        display: inline-block;
+    }
+
+    .banner {
+        padding: 0;
+        height: 70px;
+    }
+
+    .banner-heading {
+        margin-top: 15px;
+        margin-left: 20px;
+        font-size: 1.86em;
+        /*26px;*/
+        line-height: 1.4;
+        width: auto;
+        text-align: left;
+    }
+
+    .btn-float {
+        display: block;
+    }
+}

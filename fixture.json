@@ -1,0 +1,51 @@
+[
+  {
+    "model": "stations.District",    
+    "fields": {
+      "name": "Karonga"
+    }
+  },
+  {
+    "model": "stations.District",     
+    "fields": {
+      "name": "Salima"      
+    }
+  },
+  {
+    "model": "stations.District",     
+    "fields": {
+      "name": "Dedza"      
+    }
+  },
+  {
+    "model": "stations.District",     
+    "fields": {
+      "name": "Phalombe"      
+    }
+  },
+  {
+    "model": "stations.District",     
+    "fields": {
+      "name": "Nkhotakota"      
+    }
+  },
+  {
+    "model": "stations.District",     
+    "fields": {
+      "name": "Nkhata Bay"      
+    }
+  },
+  {
+    "model": "stations.District",     
+    "fields": {
+      "name": "Rumph"      
+    }
+  },
+  {
+    "model": "stations.District",     
+    "fields": {
+      "name": "Zomba"      
+    }
+  }
+]
+     

@@ -1,0 +1,201 @@
+{% extends 'stations/base.html' %}
+{% load static %}
+
+
+{% block body %}
+    <div class="container-fluid main-container">
+        <div class="row full-height">
+            <div class="col-md-2 full-height" style="padding-top:15px;padding-bottom:15px;border-right:1px solid #269ab1; ">
+                <div class="panel full-height">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Data Watch</h4>
+                    </div>
+
+                    <div class="panel-body">
+                        
+                        {% comment %} <label class="col-form-label">District:</label> {% endcomment %}
+                        <select id="selDistrict" class="form-control" style="margin-bottom:15px;display:none;"> </select>                      
+                        <div style="margin-bottom:10px;font-weight:bold;"><span>As of: </span><span id="data-title"></span></div>
+                        <input type="checkbox" id="activateSiren" /> <label for="activateSiren">Activate Siren on browser</label>
+                        <div class="data-listview"> </div>
+                        
+                        <audio id="siren">
+                            <source src="{% static 'stations/audio/siren.mp3' %}" type="audio/mp3">                            
+                        </audio>
+                    </div>
+
+
+                </div>
+                
+                 {% comment %} <div>
+                    <label class="col-form-label">District:</label>
+                        <select id="selDistrict" class="form-control">
+                            <option value="all">All</option>
+                            <option value="Lalitpur">Lalitpur</option>
+                        </select>
+
+                 </div> {% endcomment %}
+            </div>
+            <div class="col-md-10 full-height" style="padding:0;">
+                <div id="mapDiv" class="map" >
+
+                    <div id="popup" class="ol-popup" style="font-size:0.8em;display:none;min-width:300px;">
+                        <div>
+                            <h4 id="popup-title" style="font-weight:bold;margin-top:0;font-size:16px;"></h4>
+                            <a href="#" id="popup-closer" class="ol-popup-closer"><i class="fas fa-times"></i></a>
+                        </div>
+                        <div id="popup-content"></div>
+                    </div>
+
+                    <div id="dChart" class="chart-modal" style="width:calc(100% - 30px);height:calc(100% - 30px);top:15px;left:15px;z-index:9999;display:none;overflow:hidden;">
+                        <a href="#" id="btnClose-dChart" class="ol-popup-closer"><i class="fas fa-times"></i></a>
+                        {% comment %} <h4 id="dChart-title"></h4> {% endcomment %}
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="p_wlevel-tab" data-toggle="tab" href="#p_wlevel" role="tab" aria-controls="p_wlevel" aria-selected="true">Water Level</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="p_rain-tab" data-toggle="tab" href="#p_rain" role="tab" aria-controls="p_rain" aria-selected="false">Rainfall</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="p_discharge-tab" data-toggle="tab" href="#p_discharge" role="tab" aria-controls="p_discharge" aria-selected="false">Discharge</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="p_streamflow-tab" data-toggle="tab" href="#p_streamflow" role="tab" aria-controls="p_streamflow" aria-selected="false">GEOGloWS ECMWF</a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content" id="myTabContent" style="height:calc(100% - 20px);">
+                            <div class="tab-pane fade show active" id="p_wlevel" role="tabpanel" aria-labelledby="p_wlevel-tab" style="height:100%;">                                
+                                <div style="position:absolute;top:68px;left:80px;z-index:99;">
+                                    <input type="hidden" id="stnid-chart" value=""/>
+                                    <div id="wlevelDate" class="input-group date">
+                                        <input type="text" class="form-control" aria-label="wlevelDate">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="position:absolute;top:68px;right:60px;z-index:99;">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <div type="button" class="btn btn-outline-secondary active wlevel-option">All</div>
+                                        <div type="button" class="btn btn-outline-secondary wlevel-option">Hourly</div>                                   
+                                    </div>
+                                </div>
+                                <div id="wlevelChart" style="height:100%;"></div>
+                            </div>
+
+                            <div class="tab-pane fade" id="p_rain" role="tabpanel" aria-labelledby="p_rain-tab" style="height:100%;">
+                                {% comment %} <div style="position:absolute;top:68px;left:80px;z-index:99;">
+                                    
+                                    <div id="rainDate" class="input-group date">
+                                        <input type="text" class="form-control" aria-label="rainDate">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                        </div>
+                                    </div>
+                                </div> {% endcomment %}
+                                <div style="position:absolute;top:68px;right:60px;z-index:99;">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <div type="button" class="btn btn-outline-secondary active rain-option">All</div>
+                                        <div type="button" class="btn btn-outline-secondary rain-option">Hourly</div>                                   
+                                    </div>
+                                </div>
+                                <div id="rainChart" style="height:100%;"></div>
+                            </div> 
+
+                            <div class="tab-pane fade" id="p_discharge" role="tabpanel" aria-labelledby="p_discharge-tab" style="height:100%">
+                                <div style="position:absolute;top:68px;right:60px;z-index:99;">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <div type="button" class="btn btn-outline-secondary active discharge-option">All</div>
+                                        <div type="button" class="btn btn-outline-secondary discharge-option">Hourly</div>                                   
+                                    </div>
+                                </div>
+                                <div id="dischargeChart" style="height:100%;"></div>
+                            </div> 
+
+                            <div class="tab-pane fade" id="p_streamflow" role="tabpanel" aria-labelledby="p_streamflow-tab" style="height:100%">
+                                <div style="position:absolute;top:68px;left:80px;z-index:99;">
+                                    <div id="fcastDate" class="input-group date">
+                                        <input type="text" class="form-control" aria-label="wlevelDate">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <img id="fcast-loading" src="{% static 'stations/images/loading.gif' %}" style="position:absolute; top:50%; left:50%; z-index: 999; dispaly:none; transform:translate(-50%,-50%)"/>
+
+                                {% comment %} <div style="position:absolute;top:68px;right:60px;z-index:99;">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <div type="button" class="btn btn-outline-secondary active discharge-option">All</div>
+                                        <div type="button" class="btn btn-outline-secondary discharge-option">Hourly</div>                                   
+                                    </div>
+                                </div> {% endcomment %}
+                                <div id="streamflowChart" style="height:100%;"></div>
+                            </div>                    
+                        </div>
+                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block css  %}
+    {% comment %}<link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.0.0/css/ol.css">{% endcomment %}
+    <link rel="stylesheet" href="{% static 'stations/plugins/ol/ol.css' %}">
+    <link rel="stylesheet" href="{% static 'stations/plugins/datepicker/bootstrap-datepicker.min.css' %}">
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'stations/plugins/ol/ol.js' %}"></script> 
+     {% comment %}<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.0.0/build/ol.js"></script>{% endcomment %}
+    {% comment %} <script src="{% static 'stations/js/cookie.js' %}"></script> {% endcomment %}
+
+     
+    <script src="{% static 'stations/js/highcharts/highcharts.js' %}"></script>
+    {% comment %} <script src="{% static 'stations/js/highcharts/highstock.js' %}"></script> {% endcomment %}
+    <script src="{% static 'stations/js/highcharts/highcharts-more.js' %}"></script>
+
+    <script src="{% static 'stations/js/highcharts/modules/exporting.js' %}"></script>
+    <script src="{% static 'stations/js/highcharts/modules/export-csv.js' %}"></script>
+
+    <script src="{% static 'stations/plugins/datepicker/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'stations/js/geoAdmin.js' %}"></script>
+    <script src="{% static 'stations/js/common.js' %}"></script>
+    <script src="{% static 'stations/js/forecast.js' %}"></script>
+    <script src="{% static 'stations/js/main.js' %}"></script>
+    
+    {% csrf_token %}
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+            $('.input-group.date').datepicker({
+                format: 'yyyy-M-dd',//'dd-mm-yy',
+                autoclose: true,
+                todayBtn:'linked',
+                todayHighlight:true,
+                //viewMode: "months",
+                //minViewMode: "months"
+            });
+            
+            $('.input-group.date').datepicker('update', new Date());
+
+            $('#btnClose-dChart').click(function(){
+                $('#dChart').hide();
+            });
+
+            startMain();     
+            
+            
+            
+        })
+      
+    </script>
+{% endblock %}
